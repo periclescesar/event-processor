@@ -49,7 +49,20 @@ flowchart TD
     RV[Reject Event] --> DLQ(events.dlq)
 ```
 
-
+# running project
+1. Cloning `.env.example`
+```shell
+cd deployments
+cp .env.example .env
+```
+2. in cd deployments path, run terraform with
+```shell
+  export $(cat .env | xargs -I% echo TF_VAR_%)
+  cd terraform
+  terraform init
+  terraform plan
+  terraform apply
+```
 
 # @TODO
  * [ ] Create Rabbitmq instance and provision it via terraform

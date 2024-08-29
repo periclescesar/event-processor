@@ -1,1 +1,6 @@
 .idea/
+.env
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+para provisiona-lo

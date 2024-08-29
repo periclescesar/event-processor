@@ -1,0 +1,14 @@
+version: "3.5"
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.12.10-management-alpine
+    platform: linux/x86_64
+    container_name: communication_engine_rabbitmq
+    restart: always
+    ports:
+      - "8080:15672" # management
+      - "5673:5672" # amqp
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
