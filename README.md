@@ -52,14 +52,15 @@ flowchart TD
 
 
 # @TODO
- * [ ] Criar um consumer para os eventos
- * [ ] Criar um leitor de contrato de configuração
- * [ ] Criar um validator que utiliza o contrato para rejeitar os eventos inválidos
- * [ ] Utilizar um banco para persistir os eventos e ser futuramente lido pelo sender
- * [ ] Criar um producer parametrizável para colocar eventos no pipeline
- * [ ] Criar testes de aceitação
- * [ ] Criar testes de carga
- * [ ] Otimizar o fluxo
- * [ ] Criar um container docker para o app
- * [ ] Mover para o LocalStack
- * [ ] Usar terraform para declarar os recursos
+ * [ ] Create Rabbitmq instance and provision it via terraform
+ * [ ] Create a consumer for the events
+ * [ ] Create a configuration contract reader 
+ * [ ] Create a validator that uses the contract to reject invalid events 
+ * [ ] Use a database to persist the events and be read in the future by the sender 
+ * [ ] Create a parameterizable producer to put events in the pipeline 
+ * [ ] Create acceptance tests 
+ * [ ] Create load tests 
+ * [ ] Optimize flow 
+ * [ ] Create a docker container for the app 
+ * [ ] Move to LocalStack 
+ * [ ] Use terraform to declare resources
