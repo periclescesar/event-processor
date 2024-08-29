@@ -8,7 +8,7 @@ services:
     restart: always
     ports:
       - "8080:15672" # management
-      - "5673:5672" # amqp
+      - "5672:5672" # amqp
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
