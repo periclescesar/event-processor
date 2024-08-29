@@ -60,6 +60,7 @@ flowchart TD
  * [ ] Create a parameterizable producer to put events in the pipeline 
  * [ ] Create acceptance tests 
  * [ ] Create load tests 
+ * [ ] Create user on rabbitmq for application only
  * [ ] Optimize flow 
  * [ ] Create a docker container for the app 
  * [ ] Move to LocalStack 
