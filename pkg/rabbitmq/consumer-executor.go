@@ -3,9 +3,10 @@ package rabbitmq
 import (
 	"fmt"
 	"github.com/rabbitmq/amqp091-go"
+	"log"
 )
 
-func StartConsuming(consumer func(amqp091.Delivery)) error {
+func StartConsuming(consumer func(amqp091.Delivery) error) error {
 	var ch, err = NewChannel()
 	if err != nil {
 		return err
@@ -29,7 +30,13 @@ func StartConsuming(consumer func(amqp091.Delivery)) error {
 
 	go func() {
 		for d := range msgs {
-			consumer(d)
+			if errC := consumer(d); errC != nil {
+				errR := d.Reject(false)
+				if errR != nil {
+					log.Fatalf("reject message: %v: %v", errR, errC)
+				}
+				log.Printf("reject message: %v", errC)
+			}
 		}
 	}()
 
