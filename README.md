@@ -68,8 +68,19 @@ terraform plan
 terraform apply
 ```
 
+# Creating a new event schema
+You can use this website to create a JSON Schema: 
+
+https://www.jsonschemavalidator.net/
+
+using this file as a template: [event-base.schema.json](configs/events-schemas/event-base.schema.json)
+
+After building and validating schema, save on path `configs/events-schema/` with name `<eventType>.schema.json`,
+replacing `<eventType>` with the eventType value expected to use this schema to validate them.
+
 # ADRs
 * [choose-schema-validator.md](docs/adr/choose-schema-validator.md)
+* [choose-how-to-organize-events-schemas.md](docs/adr/choose-how-to-organize-events-schemas.md)
 
 # @TODO
  * [ ] Create Rabbitmq instance and provision it via terraform
