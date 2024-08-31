@@ -1,0 +1,41 @@
+{
+  "$id": "file://configs/events-schemas/user-created.schema.json",
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "title": "user created",
+  "description": "schema for all user created event",
+  "required": ["eventType", "tenant", "userId", "firstName", "lastName", "age"],
+  "type": "object",
+  "properties": {
+    "eventType": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 255
+    },
+    "tenant": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 255
+    },
+    "userId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "firstName": {
+      "type": "string",
+      "description": "The person's first name."
+    },
+    "lastName": {
+      "type": "string",
+      "description": "The person's last name."
+    },
+    "age": {
+      "description": "Age in years which must be equal to or greater than zero.",
+      "type": "integer",
+      "minimum": 0
+    },
+    "accountManagerId": {
+      "type": "string",
+      "format": "uuid"
+    }
+  }
+}

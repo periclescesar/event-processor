@@ -1,0 +1,28 @@
+{
+  "$id": "file://configs/events-schemas/transaction-created.schema.json",
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "title": "transaction created",
+  "description": "schema for all transaction created event",
+  "required": ["eventType", "tenant", "transactionId", "value"],
+  "type": "object",
+  "properties": {
+    "eventType": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 255
+    },
+    "tenant": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 255
+    },
+    "transactionId": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "value": {
+      "type": "number"
+    }
+  },
+  "additionalProperties": false
+}
