@@ -1,6 +1,6 @@
 {
   "eventType": "transaction-created",
-  "tenant": "f25d45d5-213b-4de1-a35f-210f07fc55c4",
+  "tenantId": "f25d45d5-213b-4de1-a35f-210f07fc55c4",
   "transactionId": "f25d45d5-213b-4de1-a35f-210f07fc55c4",
   "value": 2345.23
 }

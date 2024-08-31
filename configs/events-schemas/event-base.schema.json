@@ -11,10 +11,9 @@
       "minLength": 3,
       "maxLength": 255
     },
-    "tenant": {
+    "tenantId": {
       "type": "string",
-      "minLength": 3,
-      "maxLength": 255
+      "format": "uuid"
     }
   }
 }
