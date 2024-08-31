@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"github.com/periclescesar/event-processor/internal/event"
 	"github.com/periclescesar/event-processor/internal/repository"
-	schemaValidator "github.com/periclescesar/event-processor/pkg/mongodb/schema-validator"
+	schemaValidator "github.com/periclescesar/event-processor/pkg/schema-validator"
 	amqp "github.com/rabbitmq/amqp091-go"
 	"go.mongodb.org/mongo-driver/mongo"
 	"log"
