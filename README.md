@@ -55,13 +55,17 @@ flowchart TD
 cd deployments
 cp .env.example .env
 ```
-2. in cd deployments path, run terraform with
+2. starting dependencies
 ```shell
-  export $(cat .env | xargs -I% echo TF_VAR_%)
-  cd terraform
-  terraform init
-  terraform plan
-  terraform apply
+docker compose up -d
+```
+3. in cd deployments path, run terraform with
+```shell
+export $(cat .env | xargs -I% echo TF_VAR_%)
+cd terraform
+terraform init
+terraform plan
+terraform apply
 ```
 
 # ADRs
