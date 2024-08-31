@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/periclescesar/event-processor/internal/event"
 	"github.com/periclescesar/event-processor/internal/repository"
+	schemaValidator "github.com/periclescesar/event-processor/pkg/mongodb/schema-validator"
 	amqp "github.com/rabbitmq/amqp091-go"
 	"go.mongodb.org/mongo-driver/mongo"
 	"log"
@@ -22,6 +23,7 @@ func NewEventConsumer(mongoDb *mongo.Database) *EventConsumer {
 }
 
 func (ec *EventConsumer) Handle(d amqp.Delivery) error {
+	ctx := context.TODO()
 	log.Printf("Received a message: %s", d.Body)
 
 	ev := &event.Event{}
@@ -32,10 +34,19 @@ func (ec *EventConsumer) Handle(d amqp.Delivery) error {
 	}
 
 	// event validate
-	log.Printf("event type: %s", ev.EventType)
+	sv := schemaValidator.NewSchemaValidator()
+	errSchema := sv.ReadSchema()
+	if errSchema != nil {
+		return errSchema
+	}
+
+	errValid := sv.Validate(ctx, d.Body)
+	if errValid != nil {
+		return errValid
+	}
 
 	// event save
-	errSave := ec.repo.Save(context.TODO(), ev)
+	errSave := ec.repo.Save(ctx, ev)
 	if errSave != nil {
 		return errSave
 	}
