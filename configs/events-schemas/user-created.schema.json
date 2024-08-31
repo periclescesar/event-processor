@@ -36,5 +36,6 @@
       "type": "string",
       "format": "uuid"
     }
-  }
+  },
+  "additionalProperties": false
 }
