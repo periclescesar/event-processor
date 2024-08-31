@@ -64,6 +64,9 @@ cp .env.example .env
   terraform apply
 ```
 
+# ADRs
+* [choose-schema-validator.md](docs/adr/choose-schema-validator.md)
+
 # @TODO
  * [ ] Create Rabbitmq instance and provision it via terraform
  * [ ] Create a consumer for the events
