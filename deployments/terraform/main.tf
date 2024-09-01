@@ -23,6 +23,7 @@ resource "rabbitmq_queue" "main_queue" {
     arguments = {
       "x-queue-type" : "classic",
       "x-dead-letter-exchange": rabbitmq_exchange.main_dlq_exchange.name,
+      "x-dead-letter-routing-key": "",
     }
   }
 }
@@ -32,6 +33,10 @@ resource "rabbitmq_binding" "main_bind" {
   source           = rabbitmq_exchange.main_exchange.name
   destination      = rabbitmq_queue.main_queue.name
   destination_type = "queue"
+
+  lifecycle {
+    replace_triggered_by = [rabbitmq_queue.main_queue, rabbitmq_exchange.main_exchange]
+  }
 }
 
 # DLQ
