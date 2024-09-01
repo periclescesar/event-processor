@@ -8,18 +8,16 @@ import (
 	"github.com/periclescesar/event-processor/internal/repository"
 	schemaValidator "github.com/periclescesar/event-processor/pkg/schema-validator"
 	amqp "github.com/rabbitmq/amqp091-go"
-	"go.mongodb.org/mongo-driver/mongo"
 	"log"
 )
 
 type EventConsumer struct {
-	repo *repository.MongoEventRepository
+	validator *schemaValidator.SchemaValidator
+	repo      *repository.MongoEventRepository
 }
 
-func NewEventConsumer(mongoDb *mongo.Database) *EventConsumer {
-	repo := repository.NewMongoEventRepository(mongoDb)
-
-	return &EventConsumer{repo: repo}
+func NewEventConsumer(repo *repository.MongoEventRepository, validator *schemaValidator.SchemaValidator) *EventConsumer {
+	return &EventConsumer{repo: repo, validator: validator}
 }
 
 func (ec *EventConsumer) Handle(d amqp.Delivery) error {
@@ -30,17 +28,12 @@ func (ec *EventConsumer) Handle(d amqp.Delivery) error {
 	// event decode
 	err := json.Unmarshal(d.Body, ev)
 	if err != nil {
-		return fmt.Errorf("json decode: %w", err)
+		return fmt.Errorf("event decode: %w", err)
 	}
 
 	// event validate
-	sv := schemaValidator.NewSchemaValidator()
-	errSchema := sv.ReadSchema()
-	if errSchema != nil {
-		return errSchema
-	}
-
-	errValid := sv.Validate(ctx, d.Body)
+	uri := fmt.Sprintf("file://configs/events-schemas/%s.schema.json", ev.EventType)
+	errValid := ec.validator.Validate(ctx, uri, d.Body)
 	if errValid != nil {
 		return errValid
 	}
