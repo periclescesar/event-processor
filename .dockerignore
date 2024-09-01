@@ -1,0 +1,10 @@
+.git/
+.gitignore
+.dockerignore
+.idea/
+build/
+deployments/
+docs/
+test/
+*.md
+!README.md

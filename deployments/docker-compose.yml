@@ -1,24 +1,39 @@
 version: "3.5"
 
 services:
+  event-processor:
+    container_name: event-processor
+    build:
+      context: ../
+      dockerfile: build/Dockerfile
+    env_file:
+      - .env
+    environment:
+      RABBITMQ_CONNECTION_URI: 'amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_USER}@rabbitmq:5672/event-processor'
+      MONGODB_CONNECTION_URI: "mongodb://${MONGODB_INITDB_ROOT_USERNAME}:${MONGODB_INITDB_ROOT_PASSWORD}@mongodb:27017"
+
   rabbitmq:
+    container_name: rabbitmq
     image: rabbitmq:3.12.10-management-alpine
     platform: linux/x86_64
     restart: always
     ports:
       - "8080:15672" # management
       - "5672:5672" # amqp
+    volumes:
+      - ./data/rabbitmq:/var/lib/rabbitmq
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
 
-  mongoDb:
+  mongodb:
+    container_name: mongodb
     image: mongo:6.0.14
     restart: always
     ports:
       - "27017:27017"
     volumes:
-      - ./data/db:/data/db
+      - ./data/mongodb:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGODB_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_INITDB_ROOT_PASSWORD}
