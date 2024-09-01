@@ -49,24 +49,44 @@ flowchart TD
     RV[Reject Event] --> DLQ(events.dlq)
 ```
 
-# running project
-1. Cloning `.env.example`
+# Running the project
+1. Cloning `.env.example`:
 ```shell
 cd deployments
 cp .env.example .env
 ```
-2. starting dependencies
+
+2. Starting dependencies:
 ```shell
-docker compose up -d
+docker compose up -d rabbitmq mongodb
 ```
-3. in cd deployments path, run terraform with
+
+3. In deployments path, run terraform with:
 ```shell
 export $(cat .env | xargs -I% echo TF_VAR_%)
 cd terraform
 terraform init
-terraform plan
 terraform apply
 ```
+
+4. Up event-processor service:
+```shell
+cd ../
+docker compose up event-processor
+```
+After build image you will see: 
+```
+starting event processor...
+ [*] Waiting for messages
+```
+
+5. starting producers on another terminal:
+```shell
+cd deployments
+docker compose up event-producer
+```
+Then you can see the events flowing from the producer to the processor
+and being saved in mongoDb in the `events` collection.
 
 # Creating a new event schema
 You can use this website to create a JSON Schema: 
@@ -88,7 +108,8 @@ replacing `<eventType>` with the eventType value expected to use this schema to 
 * [X] ~~Create a configuration contract reader~~ 
 * [X] Create a validator that uses the contract to reject invalid events 
 * [X] Use a database to persist the events and be read in the future by the sender 
-* [ ] Create a docker container for the app
+* [X] Create a docker container for the app
+* [ ] Increase coverage test
 * [ ] Create acceptance tests 
 * [ ] Create load tests 
 * [ ] Create user on rabbitmq for application only
