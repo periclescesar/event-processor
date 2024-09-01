@@ -4,11 +4,31 @@ services:
     build:
       context: ../
       dockerfile: build/Dockerfile
+    depends_on:
+      - rabbitmq
+      - mongodb
     env_file:
       - .env
     environment:
       RABBITMQ_CONNECTION_URI: 'amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_USER}@rabbitmq:5672/event-processor'
       MONGODB_CONNECTION_URI: "mongodb://${MONGODB_INITDB_ROOT_USERNAME}:${MONGODB_INITDB_ROOT_PASSWORD}@mongodb:27017"
+
+  event-producer:
+    container_name: event-producer
+    build:
+      context: ../
+      dockerfile: build/Dockerfile.producer
+    depends_on:
+      - event-processor
+      - rabbitmq
+    volumes:
+      - ../test/mocked-events:/usr/src/app/test/mocked-events
+    env_file:
+      - .env
+    environment:
+      RABBITMQ_CONNECTION_URI: 'amqp://${RABBITMQ_DEFAULT_USER}:${RABBITMQ_DEFAULT_USER}@rabbitmq:5672/event-processor'
+      MONGODB_CONNECTION_URI: "mongodb://${MONGODB_INITDB_ROOT_USERNAME}:${MONGODB_INITDB_ROOT_PASSWORD}@mongodb:27017"
+
 
   rabbitmq:
     container_name: rabbitmq
