@@ -3,7 +3,7 @@
   "$schema": "https://json-schema.org/draft/2019-09/schema",
   "title": "base for all events",
   "description": "this schema should be used as a base for all events",
-  "required": ["eventType", "tenant"],
+  "required": ["eventType", "tenantId"],
   "type": "object",
   "properties": {
     "eventType": {
