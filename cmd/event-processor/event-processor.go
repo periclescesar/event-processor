@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"github.com/periclescesar/event-processor/configs"
 	"github.com/periclescesar/event-processor/internal/receiver"
 	"github.com/periclescesar/event-processor/internal/repository"
@@ -12,6 +13,7 @@ import (
 )
 
 func main() {
+	fmt.Println("starting event processor...")
 	configs.InitConfigs()
 
 	if err := rabbitmq.Connect(configs.Rabbitmq.Uri); err != nil {

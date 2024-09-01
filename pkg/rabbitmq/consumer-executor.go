@@ -40,6 +40,7 @@ func StartConsuming(consumer func(amqp091.Delivery) error) error {
 		}
 	}()
 
+	log.Printf(" [*] Waiting for messages")
 	<-forever
 	return nil
 }
