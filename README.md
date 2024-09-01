@@ -83,16 +83,16 @@ replacing `<eventType>` with the eventType value expected to use this schema to 
 * [choose-how-to-organize-events-schemas.md](docs/adr/choose-how-to-organize-events-schemas.md)
 
 # @TODO
- * [ ] Create Rabbitmq instance and provision it via terraform
- * [ ] Create a consumer for the events
- * [ ] Create a configuration contract reader 
- * [ ] Create a validator that uses the contract to reject invalid events 
- * [ ] Use a database to persist the events and be read in the future by the sender 
- * [ ] Create a parameterizable producer to put events in the pipeline 
- * [ ] Create acceptance tests 
- * [ ] Create load tests 
- * [ ] Create user on rabbitmq for application only
- * [ ] Optimize flow 
- * [ ] Create a docker container for the app 
- * [ ] Move to LocalStack 
- * [ ] Use terraform to declare resources
+* [X] Create Rabbitmq instance and provision it via terraform
+* [X] Create a consumer for the events
+* [X] ~~Create a configuration contract reader~~ 
+* [X] Create a validator that uses the contract to reject invalid events 
+* [X] Use a database to persist the events and be read in the future by the sender 
+* [ ] Create a docker container for the app
+* [ ] Create acceptance tests 
+* [ ] Create load tests 
+* [ ] Create user on rabbitmq for application only
+* [ ] Move to LocalStack 
+* [ ] Use terraform to declare resources
+* [ ] Create a parameterizable producer to put events in the pipeline
+* [ ] Optimize flow
