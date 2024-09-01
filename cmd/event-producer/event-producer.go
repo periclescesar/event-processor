@@ -4,6 +4,7 @@ import (
 	"github.com/periclescesar/event-processor/configs"
 	"github.com/periclescesar/event-processor/pkg/rabbitmq"
 	"log"
+	"os"
 )
 
 func main() {
@@ -13,7 +14,11 @@ func main() {
 		log.Fatalf("connection failure: %v", err)
 	}
 
-	body := `{ "eventType": "hello world" }`
+	file, errR := os.ReadFile("test/mocked-events/user-created.json")
+	if errR != nil {
+		log.Fatalf("read event file: %v", errR)
+	}
+	body := string(file)
 
 	err := rabbitmq.Publish("events.exchange", body)
 	if err != nil {
