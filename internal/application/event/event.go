@@ -1,11 +1,5 @@
 package event
 
-import (
-	"fmt"
-)
-
-const SchemasPath = "configs/events-schemas"
-
 type Event struct {
 	EventType string `json:"eventType"`
 }

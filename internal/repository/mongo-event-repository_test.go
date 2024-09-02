@@ -2,7 +2,7 @@ package repository
 
 import (
 	"context"
-	"github.com/periclescesar/event-processor/internal/event"
+	"github.com/periclescesar/event-processor/internal/application/event"
 	"github.com/stretchr/testify/assert"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/integration/mtest"

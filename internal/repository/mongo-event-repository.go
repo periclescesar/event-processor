@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 	"fmt"
-	"github.com/periclescesar/event-processor/internal/event"
+	"github.com/periclescesar/event-processor/internal/application/event"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
