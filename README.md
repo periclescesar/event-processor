@@ -116,4 +116,5 @@ replacing `<eventType>` with the eventType value expected to use this schema to 
 * [ ] Move to LocalStack 
 * [ ] Use terraform to declare resources
 * [ ] Create a parameterizable producer to put events in the pipeline
+* [ ] Change Dockerfile to be multi-stage build
 * [ ] Optimize flow
