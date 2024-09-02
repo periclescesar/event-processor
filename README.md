@@ -94,6 +94,7 @@ You can use this website to create a JSON Schema:
 https://www.jsonschemavalidator.net/
 
 using this file as a template: [event-base.schema.json](configs/events-schemas/event-base.schema.json)
+and following specification [draft/2019-09](https://json-schema.org/draft/2019-09/json-schema-validation) 
 
 After building and validating schema, save on path `configs/events-schema/` with name `<eventType>.schema.json`,
 replacing `<eventType>` with the eventType value expected to use this schema to validate them.
