@@ -28,9 +28,5 @@ func (es *EventService) Save(ctx context.Context, rawEvent []byte) error {
 		return errValid
 	}
 
-	errSave := es.repo.Save(ctx, ev)
-	if errSave != nil {
-		return errSave
-	}
-	return nil
+	return es.repo.Save(ctx, ev)
 }
