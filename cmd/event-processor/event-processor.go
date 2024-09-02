@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/periclescesar/event-processor/configs"
+	"github.com/periclescesar/event-processor/internal/application/services"
 	"github.com/periclescesar/event-processor/internal/receiver"
 	"github.com/periclescesar/event-processor/internal/repository"
 	"github.com/periclescesar/event-processor/pkg/mongodb"
@@ -31,7 +32,9 @@ func main() {
 	}
 
 	repo := repository.NewMongoEventRepository(mongodb.Manager.Db)
-	eventConsumer := receiver.NewEventConsumer(repo, sv)
+
+	eventService := services.NewEventService(sv, repo)
+	eventConsumer := receiver.NewEventConsumer(eventService)
 
 	errCons := rabbitmq.StartConsuming(eventConsumer.Handle)
 
