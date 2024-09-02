@@ -15,7 +15,7 @@ func StartConsuming(consumer func(amqp091.Delivery) error) error {
 	msgs, err := ch.Consume(
 		"events",
 		"",
-		true,
+		false,
 		false,
 		false,
 		false,
@@ -31,16 +31,21 @@ func StartConsuming(consumer func(amqp091.Delivery) error) error {
 	go func() {
 		for d := range msgs {
 			if errC := consumer(d); errC != nil {
+				log.Printf("consumming message: %v", errC)
 				errR := d.Reject(false)
 				if errR != nil {
-					log.Fatalf("reject message: %v: %v", errR, errC)
+					log.Printf("reject message: %v", errR)
 				}
-				log.Printf("reject message: %v", errC)
+			}
+			ackErr := d.Ack(false)
+			if ackErr != nil {
+				log.Printf("ack message: %v", ackErr)
 			}
 		}
 	}()
 
 	log.Printf(" [*] Waiting for messages")
 	<-forever
+	log.Printf(" [*] Closing channel")
 	return nil
 }

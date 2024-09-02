@@ -1,8 +1,11 @@
 module github.com/periclescesar/event-processor
 
-go 1.22.0
+go 1.22.1
+
+toolchain go1.22.6
 
 require (
+	github.com/AsidStorm/go-amqp-reconnect/rabbitmq v0.0.0-20240810055454-769088980e2c
 	github.com/qri-io/jsonschema v0.2.1
 	github.com/rabbitmq/amqp091-go v1.10.0
 	github.com/spf13/viper v1.19.0

@@ -2,7 +2,7 @@ package rabbitmq
 
 import (
 	"fmt"
-	amqp "github.com/rabbitmq/amqp091-go"
+	amqp "github.com/AsidStorm/go-amqp-reconnect/rabbitmq"
 )
 
 type Manager struct {

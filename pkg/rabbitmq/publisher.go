@@ -2,7 +2,7 @@ package rabbitmq
 
 import (
 	"fmt"
-	amqp "github.com/rabbitmq/amqp091-go"
+	amqp "github.com/AsidStorm/go-amqp-reconnect/rabbitmq"
 )
 
 func Publish(exchange string, body string) error {
