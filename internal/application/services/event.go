@@ -7,14 +7,6 @@ import (
 	"github.com/periclescesar/event-processor/internal/application/event"
 )
 
-type EventValidator interface {
-	Validate(ctx context.Context, event *event.Event) error
-}
-
-type EventRepository interface {
-	Save(ctx context.Context, event *event.Event) error
-}
-
 type EventService struct {
 	validator EventValidator
 	repo      EventRepository
