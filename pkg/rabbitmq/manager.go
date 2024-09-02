@@ -6,6 +6,7 @@ import (
 )
 
 type Manager struct {
+	uri  string
 	conn *amqp.Connection
 	ch   *amqp.Channel
 }
@@ -18,12 +19,19 @@ func Connect(uri string) error {
 		return fmt.Errorf("rabbitmq connection: %w", err)
 	}
 
-	manager = &Manager{conn, nil}
+	manager = &Manager{uri, conn, nil}
 	return nil
 }
 
 func NewChannel() (*amqp.Channel, error) {
-	if manager.ch != nil {
+	if manager.conn.IsClosed() {
+		err := Connect(manager.uri)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	if manager.ch != nil && !manager.ch.IsClosed() {
 		return manager.ch, nil
 	}
 
