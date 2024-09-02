@@ -67,10 +67,12 @@ func (sv *SchemaValidator) Validate(ctx context.Context, event *event.Event) err
 		return fmt.Errorf("schema %s not found", event.EventType)
 	}
 
-	valState := schema.Validate(ctx, event.RawData)
-
-	if valState.IsValid() {
-		return fmt.Errorf("validate: %s", (*valState.Errs)[0].Error())
+	errs, err := schema.ValidateBytes(ctx, event.RawData)
+	if err != nil {
+		return fmt.Errorf("jsonschema validate: %s", err)
+	}
+	if len(errs) > 0 {
+		return fmt.Errorf("jsonschema validate: %s", errs[0].Error())
 	}
 
 	return nil
