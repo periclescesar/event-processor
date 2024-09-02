@@ -19,17 +19,20 @@ func main() {
 
 	single := flag.Bool("single-message", false, "a bool")
 	eventPath := flag.String("event-path", "test/mocked-events/user-created.json", "path to event, json file")
+	eventsPath := flag.String("all-event-on-path", "test/mocked-events", "path to all events")
+	d := flag.Duration("delay", 3, "delay in milliseconds between messages")
+
+	flag.Parse()
 
 	if *single {
 		publishSingleMessage(*eventPath)
 		return
 	}
 
-	eventsPath := flag.String("all-event-on-path", "test/mocked-events", "path to all events")
-	loadEventsFromPath(*eventsPath)
+	loadEventsFromPath(*eventsPath, *d)
 }
 
-func loadEventsFromPath(path string) {
+func loadEventsFromPath(path string, delay time.Duration) {
 	for {
 		files, err := os.ReadDir(path)
 		if err != nil {
@@ -48,7 +51,7 @@ func loadEventsFromPath(path string) {
 			}
 
 			publish(string(byteFile))
-			time.Sleep(1 * time.Second)
+			time.Sleep(delay)
 		}
 	}
 }
