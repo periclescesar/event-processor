@@ -4,10 +4,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/periclescesar/event-processor/internal/application/event"
 	"github.com/qri-io/jsonschema"
 	"os"
 	"path/filepath"
 )
+
+const SchemasPath = "configs/events-schemas"
 
 type SchemaValidator struct {
 	registry *jsonschema.SchemaRegistry
@@ -54,19 +57,20 @@ func (sv *SchemaValidator) RegistrySchemasFromPath(path string) error {
 	return nil
 }
 
-func (sv *SchemaValidator) Validate(ctx context.Context, uri string, json []byte) error {
-	schema := sv.registry.Get(ctx, uri)
+func schemaIdBuilder(eventType string) string {
+	return fmt.Sprintf("file://%s/%s.schema.json", SchemasPath, eventType)
+}
+
+func (sv *SchemaValidator) Validate(ctx context.Context, event *event.Event) error {
+	schema := sv.registry.Get(ctx, schemaIdBuilder(event.EventType))
 	if schema == nil {
-		return fmt.Errorf("schema %s not found", uri)
+		return fmt.Errorf("schema %s not found", event.EventType)
 	}
 
-	errs, err := schema.ValidateBytes(ctx, json)
-	if err != nil {
-		return fmt.Errorf("validate: %w", err)
-	}
+	valState := schema.Validate(ctx, event.RawData)
 
-	if len(errs) > 0 {
-		return fmt.Errorf("validate: %w", errs[0])
+	if valState.IsValid() {
+		return fmt.Errorf("validate: %s", (*valState.Errs)[0].Error())
 	}
 
 	return nil
