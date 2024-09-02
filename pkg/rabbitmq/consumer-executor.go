@@ -36,6 +36,7 @@ func StartConsuming(consumer func(amqp091.Delivery) error) error {
 				if errR != nil {
 					log.Printf("reject message: %v", errR)
 				}
+				continue
 			}
 			ackErr := d.Ack(false)
 			if ackErr != nil {
