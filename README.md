@@ -39,14 +39,14 @@ flowchart LR
 title: Event Processor activity diagram
 ---
 flowchart TD
-    R[Receiver]    --> UC
-    UC[SaveEventUC] <--> V
-    V{isValid}
-    C[Contract]    -.usedBy.-> V
-    
-    V --invalid--> RV[Reject Event]
-    V --valid--> P[Persist]
-    RV[Reject Event] --> DLQ(events.dlq)
+    EV[(events)] -.-> R
+    R[Receiver]    --save--> US
+    US[EventService] --validate--> Vt
+    Vt[Validator] --get--> C[/Schema/]
+    US --> V
+    V{Event is Valid} --false--> RE[Reject Event]
+    V --true--> P[Save on Repository]
+    RE[Return Error] -.-> DLQ[(events.dlq)]
 ```
 
 # Running the project
