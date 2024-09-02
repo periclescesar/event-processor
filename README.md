@@ -115,7 +115,7 @@ replacing `<eventType>` with the eventType value expected to use this schema to 
 * [ ] Create load tests 
 * [ ] Create user on rabbitmq for application only
 * [ ] Move to LocalStack 
-* [ ] Use terraform to declare resources
+* [X] Use terraform to declare resources
 * [ ] Create a parameterizable producer to put events in the pipeline
 * [ ] Change Dockerfile to be multi-stage build
 * [ ] Optimize flow
