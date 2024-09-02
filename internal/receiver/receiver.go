@@ -32,8 +32,8 @@ func (ec *EventConsumer) Handle(d amqp.Delivery) error {
 	}
 
 	// event validate
-	uri := fmt.Sprintf("file://configs/events-schemas/%s.schema.json", ev.EventType)
-	errValid := ec.validator.Validate(ctx, uri, d.Body)
+
+	errValid := ec.validator.Validate(ctx, ev.SchemaId(), d.Body)
 	if errValid != nil {
 		return errValid
 	}
