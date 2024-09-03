@@ -38,7 +38,7 @@ func (v *Validator) loadSchemaFile(filePath string) (*jsonschema.Schema, error) 
 func (v *Validator) RegistrySchemasFromPath(path string) error {
 	files, err := os.ReadDir(path)
 	if err != nil {
-		return fmt.Errorf("retriving files on %s: %w", path, err)
+		return fmt.Errorf("retrieving files on %s: %w", path, err)
 	}
 
 	for _, file := range files {

@@ -39,7 +39,7 @@ func loadEventsFromPath(path string, delay time.Duration) {
 	for {
 		files, err := os.ReadDir(path)
 		if err != nil {
-			log.Fatalf("retriving files on %s: %v", path, err)
+			log.Fatalf("retrieving files on %s: %v", path, err)
 		}
 
 		for _, file := range files {
