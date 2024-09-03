@@ -10,7 +10,7 @@ import (
 
 type Mongo struct {
 	conn *mongo.Client
-	Db   *mongo.Database
+	DB   *mongo.Database
 }
 
 var Manager = &Mongo{}
@@ -22,7 +22,7 @@ func Connect(ctx context.Context, uri, dbName string) error {
 	}
 
 	Manager.conn = conn
-	Manager.Db = conn.Database(dbName)
+	Manager.DB = conn.Database(dbName)
 
 	return nil
 }

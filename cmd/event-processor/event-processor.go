@@ -32,7 +32,7 @@ func main() {
 		log.Fatalf("schema validation failure: %v", err)
 	}
 
-	repo := repository.NewMongoEventRepository(mongodb.Manager.Db)
+	repo := repository.NewMongoEventRepository(mongodb.Manager.DB)
 
 	eventService := services.NewEventService(sv, repo)
 	eventConsumer := receiver.NewEventConsumer(eventService)
