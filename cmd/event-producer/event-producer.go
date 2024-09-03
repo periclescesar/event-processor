@@ -11,6 +11,8 @@ import (
 	"github.com/periclescesar/event-processor/pkg/rabbitmq"
 )
 
+const defaultDelay = 3
+
 func main() {
 	configs.InitConfigs()
 
@@ -21,7 +23,7 @@ func main() {
 	single := flag.Bool("single-message", false, "a bool")
 	eventPath := flag.String("event-path", "test/mocked-events/user-created.json", "path to event, json file")
 	eventsPath := flag.String("all-event-on-path", "test/mocked-events", "path to all events")
-	d := flag.Duration("delay", 3, "delay in milliseconds between messages")
+	d := flag.Duration("delay", defaultDelay, "delay in milliseconds between messages")
 
 	flag.Parse()
 
