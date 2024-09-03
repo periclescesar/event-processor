@@ -96,8 +96,82 @@ https://www.jsonschemavalidator.net/
 using this file as a template: [event-base.schema.json](configs/events-schemas/event-base.schema.json)
 and following specification [draft/2019-09](https://json-schema.org/draft/2019-09/json-schema-validation) 
 
-After building and validating schema, save on path `configs/events-schema/` with name `<eventType>.schema.json`,
+After building and validating schema, save on path `configs/events-schemas/` with name `<eventType>.schema.json`,
 replacing `<eventType>` with the eventType value expected to use this schema to validate them.
+
+### example:
+You can put this schema file on `configs/events-schemas/transaction-allowed.schema.json`:
+```json
+{
+	"$id": "file://configs/events-schemas/transaction-allowed.schema.json",
+	"$schema": "https://json-schema.org/draft/2019-09/schema",
+	"title": "transaction allowed event",
+	"description": "schema for all transaction allowed event",
+	"required": [
+		"eventType",
+		"tenantId"
+	],
+	"type": "object",
+	"properties": {
+		"eventType": {
+			"type": "string",
+			"minLength": 3,
+			"maxLength": 255
+		},
+		"tenantId": {
+			"type": "string",
+			"format": "uuid"
+		},
+		"transactionId": {
+			"type": "string",
+			"format": "uuid"
+		},
+		"userId": {
+			"type": "string",
+			"format": "uuid"
+		},
+		"value": {
+			"type": "number"
+		},
+		"latitude": {
+			"type": "number",
+			"minimum": -90,
+			"maximum": 90
+		},
+		"longitude": {
+			"type": "number",
+			"minimum": -180,
+			"maximum": 180
+		}
+	},
+	"additionalProperties": false
+}
+```
+Then the `event-processor` will be ready to validate this new event. Like, for example:
+```json
+{
+	"eventType": "transaction-created",
+	"tenantId": "f25d45d5-213b-4de1-a35f-210f07fc55c4",
+	"transactionId": "f25d45d5-213b-4de1-a35f-210f07fc55c4",
+	"userId": "f25d45d5-213b-4de1-a35f-210f07fc55c4",
+	"value": 2345.23
+}
+```
+Or
+```json
+{
+	"eventType": "transaction-created",
+	"tenantId": "f25d45d5-213b-4de1-a35f-210f07fc55c4",
+	"transactionId": "f25d45d5-213b-4de1-a35f-210f07fc55c4",
+	"userId": "f25d45d5-213b-4de1-a35f-210f07fc55c4",
+	"value": 2345.23,
+	"latitude": 31,
+	"longitude": 48
+}
+```
+For testing, you can put this json events on `testdata` as a json file.
+And run `event-producer` to publish these events on queue.
+
 
 # ADRs
 * [choose-schema-validator.md](docs/adr/choose-schema-validator.md)
@@ -110,12 +184,12 @@ replacing `<eventType>` with the eventType value expected to use this schema to 
 * [X] Create a validator that uses the contract to reject invalid events 
 * [X] Use a database to persist the events and be read in the future by the sender 
 * [X] Create a docker container for the app
-* [ ] Increase coverage test
+* [X] Increase coverage test
 * [ ] Create acceptance tests 
 * [ ] Create load tests 
 * [ ] Create user on rabbitmq for application only
 * [ ] Move to LocalStack 
 * [X] Use terraform to declare resources
-* [ ] Create a parameterizable producer to put events in the pipeline
+* [X] Create a parameterizable producer to put events in the pipeline
 * [ ] Change Dockerfile to be multi-stage build
 * [ ] Optimize flow
