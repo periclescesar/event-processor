@@ -4,4 +4,4 @@
 terraform.tfstate
 terraform.tfstate.backup
 /deployments/data/
-mocks/
+mocks

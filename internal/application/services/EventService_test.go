@@ -5,11 +5,12 @@ import (
 	"errors"
 	"testing"
 
+	mocks "github.com/periclescesar/event-processor/mocks/internal_/application/services"
+
 	"github.com/stretchr/testify/require"
 
 	"github.com/periclescesar/event-processor/internal/application/services"
 
-	"github.com/periclescesar/event-processor/internal/application/services/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
