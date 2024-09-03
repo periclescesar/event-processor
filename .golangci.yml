@@ -1,0 +1,13 @@
+linters:
+  enable:
+    - goimports
+    - revive
+    - gocritic
+    - errorlint
+    - gomnd
+    - misspell
+    - testpackage
+    - testifylint
+    - nlreturn
+    - stylecheck
+    - wrapcheck
