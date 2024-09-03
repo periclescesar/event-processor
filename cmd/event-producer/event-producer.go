@@ -14,7 +14,7 @@ import (
 func main() {
 	configs.InitConfigs()
 
-	if err := rabbitmq.Connect(configs.Rabbitmq.Uri); err != nil {
+	if err := rabbitmq.Connect(configs.Rabbitmq.URI); err != nil {
 		log.Fatalf("connection failure: %v", err)
 	}
 

@@ -18,11 +18,11 @@ func main() {
 	fmt.Println("starting event processor...")
 	configs.InitConfigs()
 
-	if err := rabbitmq.Connect(configs.Rabbitmq.Uri); err != nil {
+	if err := rabbitmq.Connect(configs.Rabbitmq.URI); err != nil {
 		log.Fatalf("connection failure: %v", err)
 	}
 
-	err := mongodb.Connect(context.TODO(), configs.Mongodb.Uri, "event-processor")
+	err := mongodb.Connect(context.TODO(), configs.Mongodb.URI, "event-processor")
 	if err != nil {
 		log.Fatalf("rabbitmq graceful shutdown: %v", err)
 	}
