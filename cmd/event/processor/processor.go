@@ -2,8 +2,8 @@ package main
 
 import (
 	"context"
-	"fmt"
-	"log"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/qri-io/jsonschema"
 
@@ -17,9 +17,33 @@ import (
 )
 
 func main() {
-	fmt.Println("starting event processor...")
 	configs.InitConfigs()
 
+	log.SetFormatter(&log.TextFormatter{FullTimestamp: true})
+	level, err := log.ParseLevel(configs.App.LogLevel)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.SetLevel(level)
+
+	log.Info("starting event processor...")
+
+	eventConsumer := buildEventConsumer()
+
+	errCons := rabbitmq.StartConsuming(eventConsumer.Handle)
+
+	if errCons != nil {
+		log.Fatalf("consuming failure: %v", errCons)
+	}
+
+	errC := rabbitmq.Close()
+	if errC != nil {
+		log.Fatalf("rabbitmq graceful shutdown: %v", errC)
+	}
+}
+
+func buildEventConsumer() *receiver.EventConsumer {
 	if err := rabbitmq.Connect(configs.Rabbitmq.URI); err != nil {
 		log.Fatalf("connection failure: %v", err)
 	}
@@ -39,14 +63,5 @@ func main() {
 	eventService := services.NewEventService(sv, repo)
 	eventConsumer := receiver.NewEventConsumer(eventService)
 
-	errCons := rabbitmq.StartConsuming(eventConsumer.Handle)
-
-	if errCons != nil {
-		log.Fatalf("consuming failure: %v", errCons)
-	}
-
-	errC := rabbitmq.Close()
-	if errC != nil {
-		log.Fatalf("rabbitmq graceful shutdown: %v", errC)
-	}
+	return eventConsumer
 }

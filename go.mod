@@ -8,6 +8,7 @@ require (
 	github.com/AsidStorm/go-amqp-reconnect/rabbitmq v0.0.0-20240810055454-769088980e2c
 	github.com/qri-io/jsonschema v0.2.1
 	github.com/rabbitmq/amqp091-go v1.10.0
+	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/viper v1.19.0
 	github.com/stretchr/testify v1.9.0
 	go.mongodb.org/mongo-driver v1.16.1

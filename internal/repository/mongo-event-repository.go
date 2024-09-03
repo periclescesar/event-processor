@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/periclescesar/event-processor/internal/application/event"
+	log "github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -27,10 +28,12 @@ func (e *MongoEventRepository) Save(ctx context.Context, ev *event.Event) error 
 		return fmt.Errorf("convert event to map: %w", errMap)
 	}
 
-	_, err := e.coll.InsertOne(ctx, evPersist)
+	id, err := e.coll.InsertOne(ctx, evPersist)
 	if err != nil {
 		return fmt.Errorf("save on mongo: %w", err)
 	}
+
+	log.Debugf("saved event with id: %s", id.InsertedID)
 
 	return nil
 }

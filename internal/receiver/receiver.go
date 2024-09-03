@@ -3,7 +3,8 @@ package receiver
 import (
 	"context"
 	"fmt"
-	"log"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/periclescesar/event-processor/internal/application/services"
 	amqp "github.com/rabbitmq/amqp091-go"
@@ -24,7 +25,8 @@ func NewEventConsumer(eventService services.EventSaver) *EventConsumer {
 // It returns an error if saving the event fails.
 func (ec *EventConsumer) Handle(d amqp.Delivery) error {
 	ctx := context.TODO()
-	log.Printf("Received a message: %s", d.Body)
+	log.Debug("Received a message...")
+	log.Tracef("Received a message: %s", d.Body)
 
 	err := ec.eventService.Save(ctx, d.Body)
 	if err != nil {

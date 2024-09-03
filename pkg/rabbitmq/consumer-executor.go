@@ -2,7 +2,8 @@ package rabbitmq
 
 import (
 	"fmt"
-	"log"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/rabbitmq/amqp091-go"
 )
@@ -32,24 +33,24 @@ func StartConsuming(consumer func(amqp091.Delivery) error) error {
 	go func() {
 		for d := range msgs {
 			if errC := consumer(d); errC != nil {
-				log.Printf("consumming message: %v", errC)
+				log.Debugf("consuming message: %v", errC)
 				errR := d.Reject(false)
 				if errR != nil {
-					log.Printf("reject message: %v", errR)
+					log.Errorf("reject message: %v", errR)
 				}
 
 				continue
 			}
 			ackErr := d.Ack(false)
 			if ackErr != nil {
-				log.Printf("ack message: %v", ackErr)
+				log.Errorf("ack message: %v", ackErr)
 			}
 		}
 	}()
 
-	log.Printf(" [*] Waiting for messages")
+	log.Info("[*] Waiting for messages")
 	<-forever
-	log.Printf(" [*] Closing channel")
+	log.Info("[*] Closing channel")
 
 	return nil
 }
