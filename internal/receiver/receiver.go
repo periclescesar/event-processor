@@ -3,9 +3,10 @@ package receiver
 import (
 	"context"
 	"fmt"
+	"log"
+
 	"github.com/periclescesar/event-processor/internal/application/services"
 	amqp "github.com/rabbitmq/amqp091-go"
-	"log"
 )
 
 type EventConsumer struct {

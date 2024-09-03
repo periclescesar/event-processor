@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+
 	"github.com/periclescesar/event-processor/internal/application/event"
 )
 

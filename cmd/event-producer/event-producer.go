@@ -2,12 +2,13 @@ package main
 
 import (
 	"flag"
-	"github.com/periclescesar/event-processor/configs"
-	"github.com/periclescesar/event-processor/pkg/rabbitmq"
 	"log"
 	"os"
 	"path/filepath"
 	"time"
+
+	"github.com/periclescesar/event-processor/configs"
+	"github.com/periclescesar/event-processor/pkg/rabbitmq"
 )
 
 func main() {

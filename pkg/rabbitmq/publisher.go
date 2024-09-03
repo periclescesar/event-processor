@@ -2,6 +2,7 @@ package rabbitmq
 
 import (
 	"fmt"
+
 	amqp "github.com/AsidStorm/go-amqp-reconnect/rabbitmq"
 )
 

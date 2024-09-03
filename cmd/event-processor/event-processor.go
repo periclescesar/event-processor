@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
+
 	"github.com/periclescesar/event-processor/configs"
 	"github.com/periclescesar/event-processor/internal/application/services"
 	"github.com/periclescesar/event-processor/internal/receiver"
@@ -10,7 +12,6 @@ import (
 	"github.com/periclescesar/event-processor/pkg/mongodb"
 	"github.com/periclescesar/event-processor/pkg/rabbitmq"
 	schemaValidator "github.com/periclescesar/event-processor/pkg/schema-validator"
-	"log"
 )
 
 func main() {

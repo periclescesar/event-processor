@@ -2,8 +2,9 @@ package rabbitmq
 
 import (
 	"fmt"
-	"github.com/rabbitmq/amqp091-go"
 	"log"
+
+	"github.com/rabbitmq/amqp091-go"
 )
 
 func StartConsuming(consumer func(amqp091.Delivery) error) error {

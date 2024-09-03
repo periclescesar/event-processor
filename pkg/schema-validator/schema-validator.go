@@ -4,10 +4,11 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/periclescesar/event-processor/internal/application/event"
-	"github.com/qri-io/jsonschema"
 	"os"
 	"path/filepath"
+
+	"github.com/periclescesar/event-processor/internal/application/event"
+	"github.com/qri-io/jsonschema"
 )
 
 const SchemasPath = "configs/events-schemas"
