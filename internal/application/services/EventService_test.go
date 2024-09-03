@@ -5,6 +5,8 @@ import (
 	"errors"
 	"testing"
 
+	"github.com/stretchr/testify/require"
+
 	"github.com/periclescesar/event-processor/internal/application/services"
 
 	"github.com/periclescesar/event-processor/internal/application/services/mocks"
@@ -51,7 +53,7 @@ func TestEventService_Save_InvalidEvent(t *testing.T) {
 
 	es := services.NewEventService(validator, repo)
 
-	dummyError := errors.New("dummy error")
+	var dummyError = errors.New("dummy error")
 
 	validator.On("Validate", ctx, mock.Anything).Return(dummyError)
 	repo.AssertNotCalled(t, "Save", ctx, mock.Anything)
@@ -59,8 +61,8 @@ func TestEventService_Save_InvalidEvent(t *testing.T) {
 	rawEvent := []byte(`{"eventType": "type"}`)
 
 	err := es.Save(ctx, rawEvent)
-	assert.Error(t, err)
-	assert.ErrorAs(t, err, &dummyError)
+	require.Error(t, err)
+	assert.ErrorIs(t, err, dummyError)
 }
 
 func TestEventService_Save_ErrorOnSave(t *testing.T) {
@@ -78,6 +80,6 @@ func TestEventService_Save_ErrorOnSave(t *testing.T) {
 	rawEvent := []byte(`{"eventType": "type"}`)
 
 	err := es.Save(ctx, rawEvent)
-	assert.Error(t, err)
-	assert.ErrorAs(t, err, &dummyError)
+	require.Error(t, err)
+	assert.ErrorIs(t, err, dummyError)
 }
