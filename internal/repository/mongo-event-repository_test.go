@@ -1,8 +1,10 @@
-package repository
+package repository_test
 
 import (
 	"context"
 	"testing"
+
+	"github.com/periclescesar/event-processor/internal/repository"
 
 	"github.com/periclescesar/event-processor/internal/application/event"
 	"github.com/stretchr/testify/assert"
@@ -22,7 +24,7 @@ func TestEventRepository_Save(t *testing.T) {
 			{Key: "acknowledgement", Value: true},
 		})
 		dbMock := mt.Client.Database(dbName)
-		repo := NewMongoEventRepository(dbMock)
+		repo := repository.NewMongoEventRepository(dbMock)
 
 		err := repo.Save(context.TODO(), &event.Event{EventType: "testType"})
 		assert.NoError(mt, err, "error not expected")
@@ -33,7 +35,7 @@ func TestEventRepository_Save(t *testing.T) {
 			{Key: "ok", Value: 0},
 		})
 		dbMock := mt.Client.Database(dbName)
-		repo := NewMongoEventRepository(dbMock)
+		repo := repository.NewMongoEventRepository(dbMock)
 
 		err := repo.Save(context.TODO(), &event.Event{EventType: "1234"})
 		assert.Error(mt, err, "error expected")
