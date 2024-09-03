@@ -70,7 +70,7 @@ func (v *Validator) Validate(ctx context.Context, event *event.Event) error {
 
 	errs, err := schema.ValidateBytes(ctx, event.RawData)
 	if err != nil {
-		return fmt.Errorf("jsonschema validate: %s", err)
+		return fmt.Errorf("jsonschema validate: %w", err)
 	}
 	if len(errs) > 0 {
 		return fmt.Errorf("jsonschema validate: %s", errs[0].Error())
