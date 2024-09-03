@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/qri-io/jsonschema"
+
 	"github.com/periclescesar/event-processor/configs"
 	"github.com/periclescesar/event-processor/internal/application/services"
 	"github.com/periclescesar/event-processor/internal/receiver"
@@ -27,8 +29,8 @@ func main() {
 		log.Fatalf("rabbitmq graceful shutdown: %v", err)
 	}
 
-	sv := schemaValidator.NewSchemaValidator()
-	if sv.RegistrySchemasFromPath("configs/events-schemas") != nil {
+	sv := schemaValidator.NewSchemaValidator(jsonschema.GetSchemaRegistry(), "configs/events-schemas")
+	if sv.RegistrySchemas() != nil {
 		log.Fatalf("schema validation failure: %v", err)
 	}
 

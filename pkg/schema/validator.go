@@ -6,19 +6,19 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/periclescesar/event-processor/internal/application/event"
 	"github.com/qri-io/jsonschema"
 )
 
-const SchemasPath = "configs/events-schemas"
-
 type Validator struct {
-	registry *jsonschema.SchemaRegistry
+	registry    *jsonschema.SchemaRegistry
+	schemasPath string
 }
 
-func NewSchemaValidator() *Validator {
-	return &Validator{registry: jsonschema.GetSchemaRegistry()}
+func NewSchemaValidator(registry *jsonschema.SchemaRegistry, schemasPath string) *Validator {
+	return &Validator{registry: registry, schemasPath: schemasPath}
 }
 
 func (v *Validator) loadSchemaFile(filePath string) (*jsonschema.Schema, error) {
@@ -35,10 +35,10 @@ func (v *Validator) loadSchemaFile(filePath string) (*jsonschema.Schema, error) 
 	return rs, nil
 }
 
-func (v *Validator) RegistrySchemasFromPath(path string) error {
-	files, err := os.ReadDir(path)
+func (v *Validator) RegistrySchemas() error {
+	files, err := os.ReadDir(v.schemasPath)
 	if err != nil {
-		return fmt.Errorf("retrieving files on %s: %w", path, err)
+		return fmt.Errorf("retrieving files on %s: %w", v.schemasPath, err)
 	}
 
 	for _, file := range files {
@@ -46,7 +46,7 @@ func (v *Validator) RegistrySchemasFromPath(path string) error {
 			continue
 		}
 
-		fullPath := filepath.Join(path, file.Name())
+		fullPath := filepath.Join(v.schemasPath, file.Name())
 		schemaFile, errLoad := v.loadSchemaFile(fullPath)
 		if errLoad != nil {
 			return errLoad
@@ -58,12 +58,14 @@ func (v *Validator) RegistrySchemasFromPath(path string) error {
 	return nil
 }
 
-func schemaIDBuilder(eventType string) string {
-	return fmt.Sprintf("file://%s/%s.schema.json", SchemasPath, eventType)
+func (v *Validator) schemaIDBuilder(eventType string) string {
+	pathFromRoot := strings.TrimLeft(v.schemasPath, "../")
+
+	return fmt.Sprintf("file://%s/%s.schema.json", pathFromRoot, eventType)
 }
 
 func (v *Validator) Validate(ctx context.Context, event *event.Event) error {
-	schema := v.registry.Get(ctx, schemaIDBuilder(event.EventType))
+	schema := v.registry.Get(ctx, v.schemaIDBuilder(event.EventType))
 	if schema == nil {
 		return fmt.Errorf("schema %s not found", event.EventType)
 	}
