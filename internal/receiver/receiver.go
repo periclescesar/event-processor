@@ -9,14 +9,19 @@ import (
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
+// EventConsumer consumes and processes events from a message broker.
 type EventConsumer struct {
-	eventService services.EventSaver
+	eventService services.EventSaver // Service for saving events.
 }
 
+// NewEventConsumer creates a new instance of EventConsumer with the provided EventSaver.
 func NewEventConsumer(eventService services.EventSaver) *EventConsumer {
 	return &EventConsumer{eventService: eventService}
 }
 
+// Handle processes a message received from the message broker.
+// It receives message and attempts to save it using the provided EventSaver.
+// It returns an error if saving the event fails.
 func (ec *EventConsumer) Handle(d amqp.Delivery) error {
 	ctx := context.TODO()
 	log.Printf("Received a message: %s", d.Body)
