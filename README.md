@@ -185,6 +185,8 @@ And run `event-producer` to publish these events on queue.
 * [X] Use a database to persist the events and be read in the future by the sender 
 * [X] Create a docker container for the app
 * [X] Increase coverage test
+* [ ] Improve logs
+* [ ] Use Dependency Injector
 * [ ] Create acceptance tests 
 * [ ] Create load tests 
 * [ ] Create user on rabbitmq for application only
