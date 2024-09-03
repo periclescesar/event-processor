@@ -50,12 +50,12 @@ func NewChannel() (*amqp.Channel, error) {
 func Close() error {
 	errCh := manager.ch.Close()
 	if errCh != nil {
-		return errCh
+		return fmt.Errorf("rabbitmq channel close: %w", errCh)
 	}
 
 	errConn := manager.conn.Close()
 	if errConn != nil {
-		return errConn
+		return fmt.Errorf("rabbitmq connection close: %w", errConn)
 	}
 
 	return nil

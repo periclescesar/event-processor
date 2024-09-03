@@ -46,6 +46,8 @@ func TestEventService_Save_UnmarshalErr(t *testing.T) {
 	assert.Error(t, err)
 }
 
+var errDummy = errors.New("dummy error")
+
 func TestEventService_Save_InvalidEvent(t *testing.T) {
 	ctx := context.TODO()
 	validator := mocks.NewEventValidator(t)
@@ -53,16 +55,14 @@ func TestEventService_Save_InvalidEvent(t *testing.T) {
 
 	es := services.NewEventService(validator, repo)
 
-	var dummyError = errors.New("dummy error")
-
-	validator.On("Validate", ctx, mock.Anything).Return(dummyError)
+	validator.On("Validate", ctx, mock.Anything).Return(errDummy)
 	repo.AssertNotCalled(t, "Save", ctx, mock.Anything)
 
 	rawEvent := []byte(`{"eventType": "type"}`)
 
 	err := es.Save(ctx, rawEvent)
 	require.Error(t, err)
-	assert.ErrorIs(t, err, dummyError)
+	assert.ErrorIs(t, err, errDummy)
 }
 
 func TestEventService_Save_ErrorOnSave(t *testing.T) {
@@ -74,12 +74,11 @@ func TestEventService_Save_ErrorOnSave(t *testing.T) {
 
 	validator.On("Validate", ctx, mock.Anything).Return(nil)
 
-	dummyError := errors.New("dummy error")
-	repo.On("Save", ctx, mock.Anything).Return(dummyError)
+	repo.On("Save", ctx, mock.Anything).Return(errDummy)
 
 	rawEvent := []byte(`{"eventType": "type"}`)
 
 	err := es.Save(ctx, rawEvent)
 	require.Error(t, err)
-	assert.ErrorIs(t, err, dummyError)
+	assert.ErrorIs(t, err, errDummy)
 }

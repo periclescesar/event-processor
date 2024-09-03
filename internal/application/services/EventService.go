@@ -26,8 +26,13 @@ func (es *EventService) Save(ctx context.Context, rawEvent []byte) error {
 
 	errValid := es.validator.Validate(ctx, ev)
 	if errValid != nil {
-		return errValid
+		return fmt.Errorf("event validate: %w", errValid)
 	}
 
-	return es.repo.Save(ctx, ev)
+	errSave := es.repo.Save(ctx, ev)
+	if errSave != nil {
+		return fmt.Errorf("save event: %w", errSave)
+	}
+
+	return nil
 }
