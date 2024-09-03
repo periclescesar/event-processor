@@ -37,6 +37,7 @@ func StartConsuming(consumer func(amqp091.Delivery) error) error {
 				if errR != nil {
 					log.Printf("reject message: %v", errR)
 				}
+
 				continue
 			}
 			ackErr := d.Ack(false)
@@ -49,5 +50,6 @@ func StartConsuming(consumer func(amqp091.Delivery) error) error {
 	log.Printf(" [*] Waiting for messages")
 	<-forever
 	log.Printf(" [*] Closing channel")
+
 	return nil
 }

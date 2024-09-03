@@ -29,6 +29,7 @@ func main() {
 
 	if *single {
 		publishSingleMessage(*eventPath)
+
 		return
 	}
 

@@ -23,5 +23,6 @@ func Connect(ctx context.Context, uri, dbName string) error {
 
 	Manager.conn = conn
 	Manager.Db = conn.Database(dbName)
+
 	return nil
 }

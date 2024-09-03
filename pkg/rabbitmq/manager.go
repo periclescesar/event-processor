@@ -21,6 +21,7 @@ func Connect(uri string) error {
 	}
 
 	manager = &Manager{uri, conn, nil}
+
 	return nil
 }
 
@@ -42,6 +43,7 @@ func NewChannel() (*amqp.Channel, error) {
 	}
 
 	manager.ch = ch
+
 	return ch, nil
 }
 
@@ -55,5 +57,6 @@ func Close() error {
 	if errConn != nil {
 		return errConn
 	}
+
 	return nil
 }

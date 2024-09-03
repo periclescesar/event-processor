@@ -23,5 +23,6 @@ func (e *MongoEventRepository) Save(ctx context.Context, ev *event.Event) error 
 	if err != nil {
 		return fmt.Errorf("save on mongo: %w", err)
 	}
+
 	return nil
 }
