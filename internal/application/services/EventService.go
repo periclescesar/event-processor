@@ -8,6 +8,10 @@ import (
 	"github.com/periclescesar/event-processor/internal/application/event"
 )
 
+type EventSaver interface {
+	Save(ctx context.Context, data []byte) error
+}
+
 type EventService struct {
 	validator EventValidator
 	repo      EventRepository

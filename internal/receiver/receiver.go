@@ -10,10 +10,10 @@ import (
 )
 
 type EventConsumer struct {
-	eventService *services.EventService
+	eventService services.EventSaver
 }
 
-func NewEventConsumer(eventService *services.EventService) *EventConsumer {
+func NewEventConsumer(eventService services.EventSaver) *EventConsumer {
 	return &EventConsumer{eventService: eventService}
 }
 
