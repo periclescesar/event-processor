@@ -30,10 +30,9 @@ func NewEventService(validator EventValidator, repo EventRepository) *EventServi
 // It decodes the raw event data into an Event, validates it, and then stores it in the repository.
 // It returns an error if any of these steps fail.
 func (es *EventService) Save(ctx context.Context, rawEvent []byte) error {
-	ev := &event.Event{RawData: rawEvent}
-	err := json.Unmarshal(rawEvent, ev)
+	ev, err := event.NewEventFromBytes(rawEvent)
 	if err != nil {
-		return fmt.Errorf("event decode: %w", err)
+		return fmt.Errorf("parse event: %w", err)
 	}
 
 	errValid := es.validator.Validate(ctx, ev)

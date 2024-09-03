@@ -22,7 +22,12 @@ func NewMongoEventRepository(db *mongo.Database) *MongoEventRepository {
 
 // Save stores the given event in the MongoDB collection.
 func (e *MongoEventRepository) Save(ctx context.Context, ev *event.Event) error {
-	_, err := e.coll.InsertOne(ctx, ev)
+	evPersist, errMap := ev.ToMap()
+	if errMap != nil {
+		return fmt.Errorf("convert event to map: %w", errMap)
+	}
+
+	_, err := e.coll.InsertOne(ctx, evPersist)
 	if err != nil {
 		return fmt.Errorf("save on mongo: %w", err)
 	}
