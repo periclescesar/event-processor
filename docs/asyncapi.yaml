@@ -1,0 +1,49 @@
+asyncapi: 2.6.0
+info:
+  title: event-processor
+  version: 1.0.0
+  description: |
+    This application is used to handle events, validating and persist them.
+
+servers:
+  local:
+    url: "amqp://admin:admin@localhost:5672/event-processor"
+    protocol: "amqp"
+    protocolVersion: "0.9.1"
+channels:
+  events:
+    publish:
+      summary: This queue is used receive all events to event-processor handling them
+      message:
+        $ref: '#/components/messages/event'
+
+components:
+  correlationIds:
+    default:
+      description: UUID to identify and correlate logs and message on queue
+      location: $message.header#/correlationId
+
+  schemas:
+    eventType:
+      type: string
+      description: event type to retrieve correct schema to validate
+    tenantId:
+      type: string
+      format: uuid
+      description: client identification
+
+  messages:
+    event:
+      name: event
+      correlationId:
+        $ref: '#/components/correlationIds/default'
+      payload:
+        type: object
+        required:
+          - eventType
+          - tenantId
+        properties:
+          tenantId:
+            $ref: '#/components/schemas/tenantId'
+          eventType:
+            $ref: '#/components/schemas/eventType'

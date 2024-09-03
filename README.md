@@ -172,6 +172,8 @@ Or
 For testing, you can put this json events on `testdata` as a json file.
 And run `event-producer` to publish these events on queue.
 
+# Docs
+* [asyncapi.yaml](docs/asyncapi.yaml) can be viewed on the website: https://studio.asyncapi.com/
 
 # ADRs
 * [choose-schema-validator.md](docs/adr/choose-schema-validator.md)
