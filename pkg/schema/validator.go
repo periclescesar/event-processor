@@ -1,4 +1,4 @@
-package schema_validator
+package schema
 
 import (
 	"context"
@@ -13,15 +13,15 @@ import (
 
 const SchemasPath = "configs/events-schemas"
 
-type SchemaValidator struct {
+type Validator struct {
 	registry *jsonschema.SchemaRegistry
 }
 
-func NewSchemaValidator() *SchemaValidator {
-	return &SchemaValidator{registry: jsonschema.GetSchemaRegistry()}
+func NewSchemaValidator() *Validator {
+	return &Validator{registry: jsonschema.GetSchemaRegistry()}
 }
 
-func (sv *SchemaValidator) loadSchemaFile(filePath string) (*jsonschema.Schema, error) {
+func (v *Validator) loadSchemaFile(filePath string) (*jsonschema.Schema, error) {
 	byteFile, errR := os.ReadFile(filePath)
 	if errR != nil {
 		return nil, fmt.Errorf("read file %s: %w", filePath, errR)
@@ -35,7 +35,7 @@ func (sv *SchemaValidator) loadSchemaFile(filePath string) (*jsonschema.Schema, 
 	return rs, nil
 }
 
-func (sv *SchemaValidator) RegistrySchemasFromPath(path string) error {
+func (v *Validator) RegistrySchemasFromPath(path string) error {
 	files, err := os.ReadDir(path)
 	if err != nil {
 		return fmt.Errorf("retriving files on %s: %w", path, err)
@@ -47,23 +47,23 @@ func (sv *SchemaValidator) RegistrySchemasFromPath(path string) error {
 		}
 
 		fullPath := filepath.Join(path, file.Name())
-		schemaFile, errLoad := sv.loadSchemaFile(fullPath)
+		schemaFile, errLoad := v.loadSchemaFile(fullPath)
 		if errLoad != nil {
 			return errLoad
 		}
 
-		schemaFile.Register("", sv.registry)
+		schemaFile.Register("", v.registry)
 	}
 
 	return nil
 }
 
-func schemaIdBuilder(eventType string) string {
+func schemaIDBuilder(eventType string) string {
 	return fmt.Sprintf("file://%s/%s.schema.json", SchemasPath, eventType)
 }
 
-func (sv *SchemaValidator) Validate(ctx context.Context, event *event.Event) error {
-	schema := sv.registry.Get(ctx, schemaIdBuilder(event.EventType))
+func (v *Validator) Validate(ctx context.Context, event *event.Event) error {
+	schema := v.registry.Get(ctx, schemaIDBuilder(event.EventType))
 	if schema == nil {
 		return fmt.Errorf("schema %s not found", event.EventType)
 	}

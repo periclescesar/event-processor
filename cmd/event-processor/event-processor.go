@@ -11,7 +11,7 @@ import (
 	"github.com/periclescesar/event-processor/internal/repository"
 	"github.com/periclescesar/event-processor/pkg/mongodb"
 	"github.com/periclescesar/event-processor/pkg/rabbitmq"
-	schemaValidator "github.com/periclescesar/event-processor/pkg/schema-validator"
+	schemaValidator "github.com/periclescesar/event-processor/pkg/schema"
 )
 
 func main() {
