@@ -24,7 +24,7 @@ func main() {
 		log.Fatalf("connection failure: %v", err)
 	}
 
-	err := mongodb.Connect(context.TODO(), configs.Mongodb.URI, "processor")
+	err := mongodb.Connect(context.TODO(), configs.Mongodb.URI, configs.Mongodb.DBname)
 	if err != nil {
 		log.Fatalf("rabbitmq graceful shutdown: %v", err)
 	}
