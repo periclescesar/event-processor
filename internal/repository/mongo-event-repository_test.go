@@ -26,7 +26,9 @@ func TestEventRepository_Save(t *testing.T) {
 		dbMock := mt.Client.Database(dbName)
 		repo := repository.NewMongoEventRepository(dbMock)
 
-		err := repo.Save(context.TODO(), &event.Event{EventType: "testType"})
+		ev, _ := event.NewEventFromBytes([]byte(`{"eventType": "testType", "tenantId": "123a-asdf123-asdf123-asdf13"}`))
+
+		err := repo.Save(context.TODO(), ev)
 		assert.NoError(mt, err, "error not expected")
 	})
 
