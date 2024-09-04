@@ -174,8 +174,10 @@ And run `event-producer` to publish these events on queue.
 
 # Docs
 * [asyncapi.yaml](docs/asyncapi.yaml) can be viewed on the website: https://studio.asyncapi.com/
+* [JSON Schema](https://json-schema.org/)
+* JSON Schema specification: [draft/2019-09](https://json-schema.org/draft/2019-09/json-schema-validation)
 
-# ADRs
+### ADRs
 * [choose-schema-validator.md](docs/adr/choose-schema-validator.md)
 * [choose-how-to-organize-events-schemas.md](docs/adr/choose-how-to-organize-events-schemas.md)
 
