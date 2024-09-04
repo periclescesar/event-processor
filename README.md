@@ -179,6 +179,12 @@ And run `event-producer` to publish these events on queue.
 * [choose-schema-validator.md](docs/adr/choose-schema-validator.md)
 * [choose-how-to-organize-events-schemas.md](docs/adr/choose-how-to-organize-events-schemas.md)
 
+# Test
+Before running unit tests, ensure that all mocks have been generated using:
+```shell
+mockery --all
+```
+
 # @TODO
 * [X] Create Rabbitmq instance and provision it via terraform
 * [X] Create a consumer for the events
