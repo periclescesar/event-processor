@@ -55,7 +55,7 @@ flowchart TD
 cd deployments
 cp .env.example .env
 ```
-
+You can adjust the `.env` file to suit your infrastructure needs. Set `LOG_LEVEL` to `trace` to increase verbosity and gain detailed insights into the application's internal processes.
 2. Starting dependencies:
 ```shell
 docker compose up -d rabbitmq mongodb

@@ -33,11 +33,13 @@ func StartConsuming(consumer func(amqp091.Delivery) error) error {
 	go func() {
 		for d := range msgs {
 			if errC := consumer(d); errC != nil {
-				log.Debugf("consuming message: %v", errC)
+				log.Errorf("consuming message: %v", errC)
 				errR := d.Reject(false)
 				if errR != nil {
 					log.Errorf("reject message: %v", errR)
 				}
+
+				log.Debug("message rejected")
 
 				continue
 			}
@@ -45,6 +47,7 @@ func StartConsuming(consumer func(amqp091.Delivery) error) error {
 			if ackErr != nil {
 				log.Errorf("ack message: %v", ackErr)
 			}
+			log.Debug("message aked")
 		}
 	}()
 

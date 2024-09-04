@@ -9,6 +9,8 @@ import (
 	"path/filepath"
 	"strings"
 
+	log "github.com/sirupsen/logrus"
+
 	"github.com/periclescesar/event-processor/internal/application/event"
 	"github.com/qri-io/jsonschema"
 )
@@ -88,6 +90,8 @@ func (v *Validator) Validate(ctx context.Context, event *event.Event) error {
 	if len(errs) > 0 {
 		return fmt.Errorf("jsonschema validate: %s", errs[0].Error())
 	}
+
+	log.Debug("jsonschema validated")
 
 	return nil
 }
