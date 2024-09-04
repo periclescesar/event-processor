@@ -8,7 +8,7 @@ Event contract validations will be described in a configuration file.
 # Architecture
 ```mermaid
 ---
-title: Integration Archteture
+title: Integration Architecture
 ---
 flowchart LR
     EP1(Event Producer) ---> B
