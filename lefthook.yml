@@ -27,6 +27,9 @@ pre-commit:
     golangci-lint:
       glob: "*.go"
       run: golangci-lint run
+    mockery:
+      glob: "*.go"
+      run: mockery --all
     gotest:
       glob: "*.go"
       run: go test ./...
