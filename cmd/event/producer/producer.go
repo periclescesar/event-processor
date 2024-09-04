@@ -2,10 +2,11 @@ package main
 
 import (
 	"flag"
-	"log"
 	"os"
 	"path/filepath"
 	"time"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/periclescesar/event-processor/configs"
 	"github.com/periclescesar/event-processor/pkg/rabbitmq"
@@ -15,6 +16,14 @@ const defaultDelay = 3
 
 func main() {
 	configs.InitConfigs()
+
+	log.SetFormatter(&log.TextFormatter{FullTimestamp: true})
+	level, err := log.ParseLevel(configs.App.LogLevel)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.SetLevel(level)
 
 	if err := rabbitmq.Connect(configs.Rabbitmq.URI); err != nil {
 		log.Fatalf("connection failure: %v", err)
