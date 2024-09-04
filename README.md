@@ -179,7 +179,14 @@ And run `event-producer` to publish these events on queue.
 * [choose-schema-validator.md](docs/adr/choose-schema-validator.md)
 * [choose-how-to-organize-events-schemas.md](docs/adr/choose-how-to-organize-events-schemas.md)
 
-# Test
+# For Devs:
+Before any commit you need `golangci-lint` and `mockery` to generate mocks,
+you can add manually or running:
+```shell
+sh ./scripts/install.sh
+```
+
+## Test
 Before running unit tests, ensure that all mocks have been generated using:
 ```shell
 mockery --all
